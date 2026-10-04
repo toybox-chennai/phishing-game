@@ -1,109 +1,35 @@
-# 🛡️ Phish Finder — Vercel Edition
+# Phish Finder — Vercel + WebRTC
 
-A real-time multiplayer phishing-awareness game that can be deployed as a **single Vercel project**.
+This version has **no Firebase and no database**.
 
-## Why Firebase?
+Vercel hosts:
+- the static game
+- a tiny `/api/signal` endpoint used for WebRTC signaling
 
-Vercel is excellent for static/frontend deployment, but it is not a traditional always-on WebSocket server. This version therefore stores the live room state in **Firebase Realtime Database**. Players connected to the same room receive state changes in real time.
+The actual multiplayer game traffic is intended to travel peer-to-peer through WebRTC DataChannels.
 
-Architecture:
+## Deploy
 
-```text
-Browser
-   │
-   ├── Vercel ── HTML/CSS/JS
-   │
-   └── Firebase Realtime Database ── shared room state
-```
+1. Push the repository to GitHub.
+2. Import it into Vercel.
+3. Deploy.
 
-## 1. Create Firebase project
+No build command is required.
 
-1. Open Firebase Console.
-2. Create a project.
-3. Add a **Web app**.
-4. Copy its configuration.
-5. Enable **Realtime Database**.
+## Important technical limitation
 
-## 2. Configure the frontend
+Vercel serverless functions do not provide durable shared memory or an always-running WebSocket server. The signaling endpoint therefore uses ephemeral serverless memory.
 
-Copy:
+That means this is suitable for a prototype/friend-group game, but it is **not a guaranteed production signaling service**. A serverless instance can restart and erase pending signaling state.
 
-```text
-public/firebase-config.example.js
-```
+The WebRTC data channel itself is peer-to-peer after connection.
 
-to:
+## Game limitation
 
-```text
-public/firebase-config.js
-```
+The current prototype makes the host authoritative for round progression and scoring. It is intentionally lightweight and not cheat-resistant.
 
-Paste your Firebase web configuration into it.
+For a public competitive release, use a durable signaling service and an authoritative backend.
 
-The file is ignored by the repository starter only if you add it to `.gitignore`. For a simple public game, the Firebase web config itself is not a secret. **The database security rules are what matter.**
+## Safety
 
-## 3. Realtime Database rules
-
-For a quick prototype, you can use permissive rules:
-
-```json
-{
-  "rules": {
-    "rooms": {
-      "$room": {
-        ".read": true,
-        ".write": true
-      }
-    }
-  }
-}
-```
-
-This is suitable only for a prototype. It allows anyone who knows a room path to modify it.
-
-For a public production game, do NOT leave this configuration in place. Add Firebase Authentication and strict validation rules before putting it in front of strangers.
-
-## 4. Deploy to Vercel
-
-Push this folder to GitHub.
-
-Then in Vercel:
-
-1. Add New Project.
-2. Import the GitHub repository.
-3. Framework preset: **Other**.
-4. Build command:
-
-```text
-npm run build
-```
-
-5. Output directory:
-
-```text
-public
-```
-
-6. Deploy.
-
-Because the app is static, there is no Node server to keep alive.
-
-## Important
-
-The game currently trusts the browser for scoring and room state. That is acceptable for a friend-group prototype but **not cheat-resistant**.
-
-For a serious competitive version, move authoritative scoring/game transitions to a trusted backend or Firebase Cloud Functions and add authentication/rate limits.
-
-## Local testing
-
-You can use any static server, for example:
-
-```bash
-npx serve public
-```
-
-Then open the displayed URL in two browser windows and join the same room.
-
-## Game content
-
-All emails are fictional/simulated. The game does not collect real passwords, payment information, cookies, or credentials.
+All emails are simulated. The game does not collect real credentials or payment information.
