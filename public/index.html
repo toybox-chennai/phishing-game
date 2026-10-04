@@ -1,0 +1,13 @@
+<!doctype html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Phish Finder</title><link rel="stylesheet" href="/style.css"></head>
+<body><main class="app">
+<header><b>⚡ PHISH<span>FINDER</span></b><small id="net">● offline</small></header>
+<section id="home" class="screen active"><div class="hero"><i>CYBER AWARENESS // P2P MULTIPLAYER</i><h1>Catch the <span>phish.</span><br>Beat your friends.</h1><p>Realistic simulated emails. One room. One winner.</p></div>
+<div class="card setup"><label>Codename</label><input id="name" maxlength="18" placeholder="PacketNinja">
+<div class="actions"><button id="create" class="primary">CREATE ROOM →</button><div class="join"><input id="code" maxlength="5" placeholder="ROOM"><button id="join">JOIN</button></div></div><p id="error"></p></div></section>
+<section id="lobby" class="screen"><div class="head"><div><i>WAITING ROOM</i><h2>Ready to hunt?</h2></div><strong id="room"></strong></div><div class="card"><div id="players"></div><button id="start" class="primary full">START GAME →</button><small id="hint"></small></div></section>
+<section id="game" class="screen"><div class="head"><div><i>ROUND <span id="rnd">1</span>/8</i><h2>Is this a phish?</h2></div><b id="timer">15</b></div><div class="bar"><div id="bar"></div></div><article class="card email"><div class="from">✉ <span id="sender"></span><small id="subject"></small></div><p id="body"></p><em id="attachment"></em><code id="link"></code></article><div class="answers"><button data-a="phishing" class="answer bad">🚩 <b>PHISHING</b><small>Something is suspicious</small></button><button data-a="legitimate" class="answer good">✓ <b>LEGITIMATE</b><small>This looks trustworthy</small></button></div><small id="wait"></small></section>
+<section id="reveal" class="screen"><i>ROUND RESULT</i><h1 id="result"></h1><p id="why"></p><div class="card"><ul id="clues"></ul><div id="scores"></div></div></section>
+<section id="finished" class="screen"><i>MATCH COMPLETE</i><h1>Final <span>scoreboard.</span></h1><div class="card" id="final"></div><button class="primary full" onclick="location.reload()">PLAY AGAIN</button></section>
+</main><script type="module" src="/app.js"></script></body></html>
