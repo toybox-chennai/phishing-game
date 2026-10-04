@@ -1,0 +1,9 @@
+{
+  "name": "phish-finder-vercel",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve public",
+    "build": "echo \"Static Vercel build\""
+  }
+}
